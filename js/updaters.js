@@ -152,20 +152,11 @@ EulerUpdater.prototype.updateVelocities = function ( particleAttributes, alive, 
         var p = getElement( i, positions );
         var v = getElement( i, velocities );
         // now update velocity based on forces...
-        
-        v.add(gravity.clone().multiplyScalar(delta_t));
-        for (var j = 0; j < attractors.length; j++)
-        {
-            if (attractors[j])
-            {   
-                var dS = p.distanceToSquared(attractors[j].center);
-                var f = attractors[j].radius/dS;
-                var dir = (attractors[j].center.clone().sub(p)).normalize(); 
-                v.add(dir.clone().multiplyScalar(f));
-            }
-
-       }
-       setElement( i, velocities, v );
+	var r = Math.sqrt((p.x * p.x) + (p.y * p.y));
+	var s = 100 / (Math. PI * r * 2);
+	v = new THREE.Vector3(p.y, -p.x, 0);
+	v.multiplyScalar(s);
+	setElement( i, velocities, v );
 
         // ----------- STUDENT CODE END ------------
     }
