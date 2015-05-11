@@ -28,12 +28,13 @@ MyInitializer.prototype.initializePositions = function ( positions, toSpawn) {
                                      NaN,
                                      NaN);
 
-        var z = (Math.random()- 0.5) * 2 * r;
+/*        var z = (Math.random()- 0.5) * 2 * r;
         var phi = Math.random() * 2 * Math.PI;
         var d = Math.sqrt(r*r - z*z);
         pos.x = base_pos.x + d * Math.cos(phi);
         pos.y = base_pos.y + d * Math.sin(phi);
-        pos.z = base_pos.z + z;
+        pos.z = base_pos.z + z;*/
+
 
         // ----------- STUDENT CODE END ------------
         setElement( idx, positions, pos );
@@ -49,9 +50,9 @@ MyInitializer.prototype.initializeVelocities = function ( velocities, positions,
         // ----------- STUDENT CODE BEGIN ------------
         // just to get started, make the velocity the same as the initial position
         var pos = getElement( idx, positions );
-        var vel = pos.clone().multiplyScalar(5.0);
-
-
+        //var vel = pos.clone().multiplyScalar(5.0);
+	//set initial velocity to zero;
+        vel = new THREE.Vector3(0.0,0.0,0.0);x
 
         // ----------- STUDENT CODE END ------------
         setElement( idx, velocities, vel );
@@ -136,12 +137,15 @@ SphereInitializer.prototype.initializePositions = function ( positions, toSpawn)
                                      NaN,
                                      NaN);
 
-        var z = (Math.random()- 0.5) * 2 * r;
-        var phi = Math.random() * 2 * Math.PI;
-        var d = Math.sqrt(r*r - z*z);
-        pos.x = base_pos.x + d * Math.cos(phi);
+/*        var z = (Math.random()- 0.5) * 2 * r;
+        var phi = Math.floor(2 * Math.random() * Math.PI);
+        var d = Math.sqrt(r*r - z*z) * 1;
+        pos.x = base_pos.x + d  * Math.cos(phi) ;
         pos.y = base_pos.y + d * Math.sin(phi);
-        pos.z = base_pos.z + z;
+        pos.z = base_pos.z;// + z;  */
+	pos.x = Math.floor(Math.random() * 24) * 5 + 1;
+	pos.y = 0;
+	pos.z = Math.random() * 10;
 
         // ----------- STUDENT CODE END ------------
         setElement( idx, positions, pos );
@@ -157,8 +161,9 @@ SphereInitializer.prototype.initializeVelocities = function ( velocities, positi
         // ----------- STUDENT CODE BEGIN ------------
         // just to get started, make the velocity the same as the initial position
         var pos = getElement( idx, positions );
-        var vel = pos.clone().multiplyScalar(5.0);
-
+//        var vel = pos.clone().multiplyScalar(5.0);
+	var s = 100;//
+	vel = new THREE.Vector3(0, s, 0);
 
 
         // ----------- STUDENT CODE END ------------
@@ -186,7 +191,7 @@ SphereInitializer.prototype.initializeSizes = function ( sizes, toSpawn ) {
         var idx = toSpawn[i];
         // ----------- STUDENT CODE BEGIN ------------
         var size = this._opts.size;
-
+	size = 3;
         // ----------- STUDENT CODE END ------------
         setElement( idx, sizes, size );
     }
@@ -199,7 +204,7 @@ SphereInitializer.prototype.initializeLifetimes = function ( lifetimes, toSpawn 
         var idx = toSpawn[i];
         // ----------- STUDENT CODE BEGIN ------------
         var lifetime = this._opts.lifetime;
-
+	lifetime = 100;
         // ----------- STUDENT CODE END ------------
         setElement( idx, lifetimes, lifetime );
     }
