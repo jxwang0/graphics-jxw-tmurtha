@@ -9,7 +9,7 @@
 
 var EPSILON = 0.01;
 var Collisions = Collisions || {};
-var num_points = 720;
+var num_points;
 
 
 ////////////////////////////////////////////////////////////////////////////////

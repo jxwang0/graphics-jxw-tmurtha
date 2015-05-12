@@ -74,7 +74,7 @@ SphereInitializer.prototype.initializeColors = function ( colors, toSpawn ) {
         var idx = toSpawn[i];
         // ----------- STUDENT CODE BEGIN ------------
         var col = base_col;
-	col = new THREE.Vector4((num_points - i) / num_points, 0 , i / num_points, 1.0);
+	col = new THREE.Vector4((num_points - i) / num_points, (i % 100) / 200 , i / num_points, 1.0);
         // ----------- STUDENT CODE END ------------
         setElement( idx, colors, col );
     }
@@ -88,7 +88,7 @@ SphereInitializer.prototype.initializeSizes = function ( sizes, toSpawn ) {
         // ----------- STUDENT CODE BEGIN ------------
         var size = this._opts.size;
 //        var pos = getElement( idx, positions );
-	size = Math.sqrt(i) * 10;
+	size = Math.pow(i, 2/3) * 10;
         // ----------- STUDENT CODE END ------------
         setElement( idx, sizes, size );
     }
