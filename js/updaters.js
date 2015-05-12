@@ -140,8 +140,9 @@ EulerUpdater.prototype.updatePositions = function ( particleAttributes, alive, d
 	//radius
 	var r = Math.round(Math.sqrt((p.x * p.x) + (p.y * p.y)));
 	//x and y as a function of timex
-	var x = Math.cos((l - 100) / Math.pow(2, r) * 20);
-	var y = Math.sin((l - 100) / Math.pow(2, r) * 20);
+	var s = (24 - r) / 10;
+	var x = Math.cos((100 - l) * s);   
+	var y = Math.sin((100 - l) * s);
 	//position on circle * distance from center
 	p.x = x * r;
 	p.y = y * r;

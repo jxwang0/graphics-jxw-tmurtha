@@ -41,9 +41,9 @@ SphereInitializer.prototype.initializePositions = function ( positions, toSpawn)
         pos.x = base_pos.x + d  * Math.cos(phi) ;
         pos.y = base_pos.y + d * Math.sin(phi);
         pos.z = base_pos.z;// + z;  */
-	pos.x = (i % 16) * 2;
+	pos.x = (i % 24);
 	pos.y = 0;
-	pos.z = 0;//Math.random() * 10;
+	pos.z = Math.random() * 10;
 
         // ----------- STUDENT CODE END ------------
         setElement( idx, positions, pos );
