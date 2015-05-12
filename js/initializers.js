@@ -2,7 +2,7 @@
  * In this file you can specify all sort of initializers
  *  We provide an example of simple initializer that generates points withing a cube.
  */
-var num_points = 24;
+var num_points = 720;
 
 function VoidInitializer ( opts ) {
     this._opts = opts;
@@ -39,7 +39,7 @@ SphereInitializer.prototype.initializePositions = function ( positions, toSpawn)
 
 	pos.x = (i % num_points) * 3 + 1;
 	pos.y = 0;
-	pos.z = Math.random() * 10;
+	pos.z = Math.pow(i / 10, 2);
 
         // ----------- STUDENT CODE END ------------
         setElement( idx, positions, pos );
@@ -85,7 +85,7 @@ SphereInitializer.prototype.initializeSizes = function ( sizes, toSpawn ) {
         // ----------- STUDENT CODE BEGIN ------------
         var size = this._opts.size;
 //        var pos = getElement( idx, positions );
-	size = Math.log(i) * 5;
+	size = Math.sqrt(i) * 10;
         // ----------- STUDENT CODE END ------------
         setElement( idx, sizes, size );
     }
