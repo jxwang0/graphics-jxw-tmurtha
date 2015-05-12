@@ -47,10 +47,9 @@ Renderer.create = function( scene, canvas ) {
     document.body.appendChild( Renderer._renderer.domElement );
 
     // Create camera and setup controls
-    Renderer._camera   = new THREE.PerspectiveCamera ( 55, Renderer._aspect, 0.01, 25000 );
+    Renderer._camera   = new THREE.PerspectiveCamera ( 55, Renderer._aspect, 0.01, 30000 );
     Renderer._controls = new THREE.TrackballControls ( Renderer._camera, Renderer._renderer.domElement );
-    Renderer._camera.position.set( 0, 0, 3000 );
-
+    Renderer._camera.position.set( 0, 3000, 15000 );
 
     // Add rendering stats, so we know the performance
     var container = document.getElementById( "stats" );
