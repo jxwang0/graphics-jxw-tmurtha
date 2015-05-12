@@ -35,7 +35,7 @@ SphereInitializer.prototype.initializePositions = function ( positions, toSpawn)
                                      NaN,
                                      NaN);
 
-	pos.x = (i % 24) * 3;
+	pos.x = (i % 24) * 3 + 1;
 	pos.y = 0;
 	pos.z = 0;//Math.random() * 10;
 
