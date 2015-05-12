@@ -29,7 +29,7 @@ SphereInitializer.prototype.initializePositions = function ( positions, toSpawn)
     var base_pos = new THREE.Vector3( base.x, base.y, base.z );
     var r   = base.w;
 
-    startTones();
+    //startTones();
     for ( var i = 0 ; i < toSpawn.length ; ++i ) {
         var idx = toSpawn[i];
         // ----------- STUDENT CODE BEGIN ------------

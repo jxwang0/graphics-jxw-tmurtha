@@ -3,24 +3,6 @@
  *  We provide an example of simple updater that updates pixel positions based on initial velocity and gravity
  */
 
-MIDI.loadPlugin({
-                soundfontUrl: "./soundfont/",
-                instrument: "acoustic_grand_piano",
-                onprogress: function(state, progress) {
-                    console.log(state, progress);
-                },
-                onsuccess: function() {
-                    var myCanvas = document.getElementById('canvas');
-                    console.log("Line 30");
-                    var delay = 0; // play one note every quarter second
-                    var note = 50; // the MIDI note
-                    var velocity = 127; // how hard the note hits
-                    // play the note
-                    MIDI.setVolume(0, 127);
-                    MIDI.noteOn(0, note, velocity, delay);
-                    MIDI.noteOff(0, note, delay + 0.75);
-                }
-        });     
 ////////////////////////////////////////////////////////////////////////////////
 // Collisions
 ////////////////////////////////////////////////////////////////////////////////
@@ -66,8 +48,8 @@ EulerUpdater.prototype.updatePositions = function ( particleAttributes, alive, d
 	//radius
 	var r = Math.round(Math.sqrt((p.x * p.x) + (p.y * p.y)));
 	//scale speed as a function of proximity to center
-    if (l % (2*Math.PI) == 0.0)
-        playTone();
+    //if (l % (2*Math.PI) == 0.0)
+      //      playTone();
 
 	var s = ((24 * 3) - r) / 20;
 	//x and y as a function of timex
