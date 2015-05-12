@@ -90,9 +90,11 @@ EulerUpdater.prototype.updateColors = function ( particleAttributes, alive, delt
         if ( !alive[i] ) continue;
         // ----------- STUDENT CODE BEGIN ------------
         var c = getElement( i, colors ).clone();
-        c.x += (Math.random() - 0.5)/9;
-        c.y += (Math.random() - 0.5)/9;
-        c.z += (Math.random() - 0.5)/9;
+
+            c.x =  (c.x + 0.001) % 1.0;
+            c.y =  (c.y + 0.001) % 1.0;
+            c.z =  (c.z + 0.001) % 1.0;
+
 
         setElement( i, colors, c );
         // ----------- STUDENT CODE END ------------

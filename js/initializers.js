@@ -2,7 +2,7 @@
  * In this file you can specify all sort of initializers
  *  We provide an example of simple initializer that generates points withing a cube.
  */
-
+var num_points = 24;
 
 function VoidInitializer ( opts ) {
     this._opts = opts;
@@ -35,7 +35,7 @@ SphereInitializer.prototype.initializePositions = function ( positions, toSpawn)
                                      NaN,
                                      NaN);
 
-	pos.x = (i % 24) * 3 + 1;
+	pos.x = (i % num_points) * 3 + 1;
 	pos.y = 0;
 	pos.z = 0;//Math.random() * 10;
 
@@ -69,7 +69,7 @@ SphereInitializer.prototype.initializeColors = function ( colors, toSpawn ) {
         var idx = toSpawn[i];
         // ----------- STUDENT CODE BEGIN ------------
         var col = base_col;
-
+	col = new THREE.Vector4((num_points - i) / num_points, 0 , i / num_points, 1.0);
         // ----------- STUDENT CODE END ------------
         setElement( idx, colors, col );
     }
@@ -82,7 +82,8 @@ SphereInitializer.prototype.initializeSizes = function ( sizes, toSpawn ) {
         var idx = toSpawn[i];
         // ----------- STUDENT CODE BEGIN ------------
         var size = this._opts.size;
-	size = 3;
+//        var pos = getElement( idx, positions );
+	size = Math.log(i) * 5;
         // ----------- STUDENT CODE END ------------
         setElement( idx, sizes, size );
     }
@@ -95,7 +96,7 @@ SphereInitializer.prototype.initializeLifetimes = function ( lifetimes, toSpawn 
         var idx = toSpawn[i];
         // ----------- STUDENT CODE BEGIN ------------
         var lifetime = this._opts.lifetime;
-	lifetime = 100;
+	lifetime = 1000;
         // ----------- STUDENT CODE END ------------
         setElement( idx, lifetimes, lifetime );
     }
