@@ -9,7 +9,7 @@
 
 var EPSILON = 0.01;
 var Collisions = Collisions || {};
-
+var num_points = 24;
 
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -48,7 +48,7 @@ EulerUpdater.prototype.updatePositions = function ( particleAttributes, alive, d
 	//radius
 	var r = Math.round(Math.sqrt((p.x * p.x) + (p.y * p.y)));
 	//scale speed as a function of proximity to center
-	var s = ((24 * 3) - r) / 20;
+	var s = ((num_points * 3) - r) / 20;
 	//x and y as a function of timex
 	var x = Math.cos((100 - l) * s);   
 	var y = Math.sin((100 - l) * s);
@@ -82,7 +82,6 @@ EulerUpdater.prototype.updateVelocities = function ( particleAttributes, alive, 
     }
 
 };
-
 EulerUpdater.prototype.updateColors = function ( particleAttributes, alive, delta_t ) {
     var colors    = particleAttributes.color;
     for ( var i = 0 ; i < alive.length ; ++i ) {
@@ -90,11 +89,12 @@ EulerUpdater.prototype.updateColors = function ( particleAttributes, alive, delt
         if ( !alive[i] ) continue;
         // ----------- STUDENT CODE BEGIN ------------
         var c = getElement( i, colors ).clone();
+	
+        c.x =  (c.x + 0.0013) % 1;
+        c.y =  (c.y + 0.0017) % 1;
+        c.z =  (c.z + 0.0023) % 1;
 
-            c.x =  (c.x + 0.001) % 1.0;
-            c.y =  (c.y + 0.001) % 1.0;
-            c.z =  (c.z + 0.001) % 1.0;
-
+	
 
         setElement( i, colors, c );
         // ----------- STUDENT CODE END ------------
