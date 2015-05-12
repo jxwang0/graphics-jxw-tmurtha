@@ -20,6 +20,7 @@ VoidInitializer.prototype.initialize = function ( particleAttributes, toSpawn ) 
 
 function SphereInitializer ( opts ) {
     this._opts = opts;
+
     return this;
 };
 
