@@ -49,16 +49,12 @@ EulerUpdater.prototype.updatePositions = function ( particleAttributes, alive, d
 	var r = Math.round(Math.sqrt((p.x * p.x) + (p.y * p.y)));
 	//scale speed as a function of proximity to center
 
-
-
     //if (l % (2*Math.PI) == 0.0)
       //      playTone();
 	var s = ((num_points * 3) - r) * 2 / num_points;
-
-
 	//x and y as a function of timex
-	var x = Math.cos((100 - l) * s);   
-	var y = Math.sin((100 - l) * s);
+	var x = Math.cos((1000 - l) * s);   
+	var y = Math.sin((1000 - l) * s);
 	//position on circle * distance from center
 	p.x = x * r;
 	p.y = y * r;
