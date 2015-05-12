@@ -130,12 +130,19 @@ function EulerUpdater ( opts ) {
 EulerUpdater.prototype.updatePositions = function ( particleAttributes, alive, delta_t ) {
     var positions  = particleAttributes.position;
     var velocities = particleAttributes.velocity;
+    var lifetimes = particleAttributes.lifetime;
 
     for ( var i  = 0 ; i < alive.length ; ++i ) {
         if ( !alive[i] ) continue;
         var p = getElement( i, positions );
         var v = getElement( i, velocities );
-        p.add( v.clone().multiplyScalar( delta_t ) );
+        var l = getElement( i, lifetimes );
+	var x = Math.cos(l);
+	var y = Math.sin(l);
+	var r = Math.sqrt((p.x * p.x) + (p.y * p.y));
+	p.x = x * r;
+	p.y = y * r;
+//        p.add( v.clone().multiplyScalar( delta_t ) );
         setElement( i, positions, p );
     }
 };
@@ -153,8 +160,8 @@ EulerUpdater.prototype.updateVelocities = function ( particleAttributes, alive, 
         var v = getElement( i, velocities );
         // now update velocity based on forces...
 	var r = Math.sqrt((p.x * p.x) + (p.y * p.y));
-	var s = 100 / (Math. PI * r * 2);
-	v = new THREE.Vector3(p.y, -p.x, 0);
+	var s = 10 / r;
+	v = new THREE.Vector3(p.y / r, -p.x / r, 0);
 	v.multiplyScalar(s);
 	setElement( i, velocities, v );
 
@@ -263,132 +270,3 @@ EulerUpdater.prototype.update = function ( particleAttributes, alive, delta_t ) 
 
 }
 
-
-function ClothUpdater ( opts ) {
-    this._opts = opts;
-    this._s = 10.0;
-    this._k_s = 0.55;
-    return this;
-}
-
-ClothUpdater.prototype.calcHooke = function ( p, q ) {
-    // ----------- STUDENT CODE BEGIN ------------
-    var k_s = this._k_s;
-    var rest_len = this._s;
-
-    var fMult = k_s * (p.distanceTo(q) - rest_len) / p.distanceTo(q);
-    var f = (q.sub(p).multiplyScalar(fMult)).clone();
-
-    return f;    // ----------- STUDENT CODE END ------------
-}
-
-ClothUpdater.prototype.updatePositions = function ( particleAttributes, alive, delta_t ) {
-    var positions  = particleAttributes.position;
-    var velocities = particleAttributes.velocity;
-    var coll = this._opts.collidables.bounceSphere;
-
-  
-    for ( var h  = 0 ; h < alive.length ; ++h ) {
-        if ( !alive[h] ) continue;
-        var p = getElement( h, positions );
-        var v = getElement( h, velocities );
-        p.add( v.clone().multiplyScalar( delta_t ) );
-         for (var i = 0 ; i < this._opts.collidables.bounceSpheres.length ; ++i)
-         {
-             var sphere = this._opts.collidables.bounceSpheres[i].sphere;
-             var damping = this._opts.collidables.bounceSpheres[i].damping;
-            
-             if (p.distanceTo(new THREE.Vector3(sphere.x, sphere.y, sphere.z)) > sphere.w + EPSILON)
-                 setElement( h, positions, p );
-        }
-    }
-};
-
-ClothUpdater.prototype.updateVelocities = function ( particleAttributes, alive, delta_t, width, height ) {
-    var positions = particleAttributes.position;
-    var velocities = particleAttributes.velocity;
-    var gravity = this._opts.externalForces.gravity;
-    var attractors = this._opts.externalForces.attractors;
-
-    for ( var j = 0 ; j < height; ++j ) {
-        for ( var i = 0 ; i < width ; ++i ) {
-            var idx = j * width + i;
-
-            // ----------- STUDENT CODE BEGIN ------------
-            var p = getElement( idx, positions );
-            var v = getElement( idx, velocities );
-    
-            v.add(gravity.clone().multiplyScalar(delta_t));
-
-            // calculate forces on this node from neighboring springs 
-            // (using this.calcHooke()... )
-
-            var idAdj = [0, 1, 2, 3]; //left, right, up, down
-            idAdj[0] = j * width + i - 1;
-            idAdj[1] = j * width + i + 1;
-            idAdj[2] = j * (width - 1) + i;
-            idAdj[3] = j * (width + 1) + i;
-
-            for (var z = 0; z < 4; z++)
-            {
-                var vQ = getElement(idAdj[z], velocities);
-                var q = getElement( idAdj[z], positions);   
-                var f = this.calcHooke(p, q).multiplyScalar(delta_t);
-                v.add(f);
-                vQ.sub(f);
-                setElement(idAdj[z], velocities, vQ);
-            }
-
-
-
-            setElement( idx, velocities, v );
-            // ----------- STUDENT CODE END ------------
-        }
-    }
-
-};
-
-
-ClothUpdater.prototype.collisions = function ( particleAttributes, alive, delta_t ) {
-    if ( !this._opts.collidables ) {
-        return;
-    }
-    if ( this._opts.collidables.bouncePlanes ) {
-        for (var i = 0 ; i < this._opts.collidables.bouncePlanes.length ; ++i ) {
-            var plane = this._opts.collidables.bouncePlanes[i].plane;
-            var damping = this._opts.collidables.bouncePlanes[i].damping;
-            Collisions.BouncePlane( particleAttributes, alive, delta_t, plane, damping );
-        }
-    }
-
-    if ( this._opts.collidables.sinkPlanes ) {
-        for (var i = 0 ; i < this._opts.collidables.sinkPlanes.length ; ++i ) {
-            var plane = this._opts.collidables.sinkPlanes[i].plane;
-            Collisions.SinkPlane( particleAttributes, alive, delta_t, plane );
-        }
-    }
-
-    if ( this._opts.collidables.bounceSpheres ) {
-        for (var i = 0 ; i < this._opts.collidables.bounceSpheres.length ; ++i ) {
-            var sphere = this._opts.collidables.bounceSpheres[i].sphere;
-            var damping = this._opts.collidables.bounceSpheres[i].damping;
-            Collisions.BounceSphere( particleAttributes, alive, delta_t, sphere, damping );
-        }
-    }
-};
-
-
-ClothUpdater.prototype.update = function ( particleAttributes, alive, delta_t, width, height ) {
-
-    this.updateVelocities( particleAttributes, alive, delta_t, width, height );
-    this.updatePositions( particleAttributes, alive, delta_t, width, height );
-
-    this.collisions( particleAttributes, alive, delta_t );
-
-    // tell webGL these were updated
-    particleAttributes.position.needsUpdate = true;
-    particleAttributes.color.needsUpdate = true;
-    particleAttributes.velocity.needsUpdate = true;
-    particleAttributes.lifetime.needsUpdate = true;
-    particleAttributes.size.needsUpdate = true;
-}

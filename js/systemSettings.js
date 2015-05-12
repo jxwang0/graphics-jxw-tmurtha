@@ -386,8 +386,8 @@ SystemSettings.attractor = {
     },
 
     // Scene
-    maxParticles :  120,
-    particlesFreq : 1000000,
+    maxParticles :  16,
+    particlesFreq : 1000,
     createScene : function () {
 
         var sphere_geo = new THREE.SphereGeometry( 1.0, 32, 32 );
