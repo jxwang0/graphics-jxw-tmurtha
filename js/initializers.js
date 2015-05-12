@@ -35,15 +35,9 @@ SphereInitializer.prototype.initializePositions = function ( positions, toSpawn)
                                      NaN,
                                      NaN);
 
-/*        var z = (Math.random()- 0.5) * 2 * r;
-        var phi = Math.floor(2 * Math.random() * Math.PI);
-        var d = Math.sqrt(r*r - z*z) * 1;
-        pos.x = base_pos.x + d  * Math.cos(phi) ;
-        pos.y = base_pos.y + d * Math.sin(phi);
-        pos.z = base_pos.z;// + z;  */
 	pos.x = (i % 24) * 3;
 	pos.y = 0;
-	pos.z = Math.random() * 10;
+	pos.z = 0;//Math.random() * 10;
 
         // ----------- STUDENT CODE END ------------
         setElement( idx, positions, pos );
