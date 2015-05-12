@@ -10,99 +10,7 @@
 var EPSILON = 0.01;
 var Collisions = Collisions || {};
 
-Collisions.AxisBoxPlane = function ( particleAttributes, alive, delta_t, plane,damping ) {
-    var positions    = particleAttributes.position;
-    var velocities   = particleAttributes.velocity;
 
-    for ( var i = 0 ; i < alive.length ; ++i ) {
-
-        if ( !alive[i] ) continue;
-        // ----------- STUDENT CODE BEGIN ------------
-        var pos = getElement( i, positions );
-        var vel = getElement( i, velocities );
-        if (Math.round(pos.x * plane.x + pos.y * plane.y + pos.z * plane.z*100)/100 < plane.w)
-        {   
-            var normal = new THREE.Vector3(plane.x, plane.y, plane.z);
-            rightTerm = normal.clone();
-            
-
-            rightTerm.divideScalar(Math.pow(rightTerm.length(),2));
-            rightTerm.multiplyScalar(2*vel.dot(normal));
-            rightTerm.multiplyScalar(damping); 
-            vel.sub(rightTerm);
-            setElement(i, velocities, vel);
-        }
-
-        setElement( i, positions, pos );
-        setElement( i, velocities, vel );
-        // ----------- STUDENT CODE END ------------
-    }
-};
-
-Collisions.BouncePlane = function ( particleAttributes, alive, delta_t, plane,damping ) {
-    var positions    = particleAttributes.position;
-    var velocities   = particleAttributes.velocity;
-
-    for ( var i = 0 ; i < alive.length ; ++i ) {
-
-        if ( !alive[i] ) continue;
-        // ----------- STUDENT CODE BEGIN ------------
-        var pos = getElement( i, positions );
-        var vel = getElement( i, velocities );
-        if (Math.round(pos.x * plane.x + pos.y * plane.y + pos.z * plane.z*100)/100 < plane.w)
-        {   
-            var normal = new THREE.Vector3(plane.x, plane.y, plane.z);
-            rightTerm = normal.clone();
-            
-
-            rightTerm.divideScalar(Math.pow(rightTerm.length(),2));
-            rightTerm.multiplyScalar(2*vel.dot(normal));
-            rightTerm.multiplyScalar(damping); 
-            vel.sub(rightTerm);
-            setElement(i, velocities, vel);
-        }
-
-        setElement( i, positions, pos );
-        setElement( i, velocities, vel );
-        // ----------- STUDENT CODE END ------------
-    }
-};
-
-Collisions.SinkPlane = function ( particleAttributes, alive, delta_t, plane  ) {
-    var positions   = particleAttributes.position;
-    for ( var i = 0 ; i < alive.length ; ++i ) {
-
-        if ( !alive[i] ) continue;
-        // ----------- STUDENT CODE BEGIN ------------
-        var pos = getElement( i, positions );
-
-        if (Math.round(pos.x * plane.x + pos.y * plane.y + pos.z * plane.z*100)/100 < plane.w)
-        {
-            pos = new THREE.Vector3(NaN, NaN, NaN);
-            setElement(i, positions, pos);
-        }
-        
-        // ----------- STUDENT CODE END ------------
-    }
-};
-
-Collisions.BounceSphere = function ( particleAttributes, alive, delta_t, sphere, damping ) {
-    var positions    = particleAttributes.position;
-    var velocities   = particleAttributes.velocity;
-
-    for ( var i = 0 ; i < alive.length ; ++i ) {
-
-        if ( !alive[i] ) continue;
-        // ----------- STUDENT CODE BEGIN ------------
-        var pos = getElement( i, positions );
-        var vel = getElement( i, velocities );
-
-
-        setElement( i, positions, pos );
-        setElement( i, velocities, vel );
-        // ----------- STUDENT CODE END ------------
-    }
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 // Null updater - does nothing
@@ -139,8 +47,9 @@ EulerUpdater.prototype.updatePositions = function ( particleAttributes, alive, d
         var l = getElement( i, lifetimes );
 	//radius
 	var r = Math.round(Math.sqrt((p.x * p.x) + (p.y * p.y)));
+	//scale speed as a function of proximity to center
+	var s = ((24 * 3) - r) / 20;
 	//x and y as a function of timex
-	var s = (24 - r) / 10;
 	var x = Math.cos((100 - l) * s);   
 	var y = Math.sin((100 - l) * s);
 	//position on circle * distance from center

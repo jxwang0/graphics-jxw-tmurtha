@@ -52,8 +52,8 @@ SystemSettings.basic = {
     },
 
     // Scene
-    maxParticles :  1200,
-    particlesFreq : 1000000,
+    maxParticles :  6000,
+    particlesFreq : 20000,
     createScene : function () {},
 };
 
