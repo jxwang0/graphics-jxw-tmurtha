@@ -39,7 +39,7 @@ EulerUpdater.prototype.updatePositions = function ( particleAttributes, alive, d
     var positions  = particleAttributes.position;
     var velocities = particleAttributes.velocity;
     var lifetimes = particleAttributes.lifetime;
-
+    num_particles = alive.length;
     for ( var i  = 0 ; i < alive.length ; ++i ) {
         if ( !alive[i] ) continue;
         var p = getElement( i, positions );
@@ -51,7 +51,7 @@ EulerUpdater.prototype.updatePositions = function ( particleAttributes, alive, d
 
     //if (l % (2*Math.PI) == 0.0)
       //      playTone();
-	var s = ((num_points * 3) - r) * 2 / num_points;
+	var s = ((num_points * 3) - r) * 3 / num_points;
 	//x and y as a function of timex
 	var x = Math.cos((1000 - l) * s);   
 	var y = Math.sin((1000 - l) * s);

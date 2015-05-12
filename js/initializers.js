@@ -2,7 +2,7 @@
  * In this file you can specify all sort of initializers
  *  We provide an example of simple initializer that generates points withing a cube.
  */
-var num_points = 720;
+var num_points;
 
 function VoidInitializer ( opts ) {
     this._opts = opts;
@@ -36,7 +36,7 @@ SphereInitializer.prototype.initializePositions = function ( positions, toSpawn)
         var pos = new THREE.Vector3(NaN,
                                      NaN,
                                      NaN);
-
+	num_points = toSpawn.length;
 	pos.x = (i % num_points) * 3;
 	pos.y = 0;
 	pos.z = Math.pow(i / 20, 2);

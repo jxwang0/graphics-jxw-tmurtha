@@ -1,5 +1,5 @@
 var SystemSettings = SystemSettings || {};
-
+var num_particles = 10;
 SystemSettings.standardMaterial = new THREE.ShaderMaterial( {
 
     uniforms: {
@@ -52,7 +52,7 @@ SystemSettings.basic = {
     },
 
     // Scene
-    maxParticles :  720,
+    maxParticles :  num_particles,
     particlesFreq : 200000,
     createScene : function () {},
 };
