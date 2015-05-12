@@ -42,7 +42,7 @@ SphereInitializer.prototype.initializePositions = function ( positions, toSpawn)
         pos.z = base_pos.z;// + z;  */
 	pos.x = (i % 16) * 2;
 	pos.y = 0;
-	pos.z = Math.random() * 10;
+	pos.z = 0;//Math.random() * 10;
 
         // ----------- STUDENT CODE END ------------
         setElement( idx, positions, pos );

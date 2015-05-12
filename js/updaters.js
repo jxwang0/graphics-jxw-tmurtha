@@ -137,9 +137,12 @@ EulerUpdater.prototype.updatePositions = function ( particleAttributes, alive, d
         var p = getElement( i, positions );
         var v = getElement( i, velocities );
         var l = getElement( i, lifetimes );
-	var x = Math.cos(l);
-	var y = Math.sin(l);
-	var r = Math.sqrt((p.x * p.x) + (p.y * p.y));
+	//radius
+	var r = Math.round(Math.sqrt((p.x * p.x) + (p.y * p.y)));
+	//x and y as a function of timex
+	var x = Math.cos((l - 100) / Math.pow(2, r) * 20);
+	var y = Math.sin((l - 100) / Math.pow(2, r) * 20);
+	//position on circle * distance from center
 	p.x = x * r;
 	p.y = y * r;
 //        p.add( v.clone().multiplyScalar( delta_t ) );
