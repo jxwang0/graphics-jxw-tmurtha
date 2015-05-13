@@ -1,5 +1,12 @@
 var SystemSettings = SystemSettings || {};
 var num_particles = 120;
+var velocity = 127;
+var speed = 2; //Bigger is Slower
+var concavity = 2;
+
+
+
+
 SystemSettings.standardMaterial = new THREE.ShaderMaterial( {
 
     uniforms: {

@@ -3,7 +3,7 @@
  *  We provide an example of simple initializer that generates points withing a cube.
  */
 var num_points;
-
+var concavity;
 function VoidInitializer ( opts ) {
     this._opts = opts;
     return this;
@@ -44,7 +44,7 @@ SphereInitializer.prototype.initializePositions = function ( positions, toSpawn)
 	    pos.x = ((num_points - i) % num_points) * 5;
 	} */
 	pos.y = 0;
-	pos.z = Math.pow(i / 6, 2);
+	pos.z = Math.pow(i / 6, concavity);
 
         // ----------- STUDENT CODE END ------------
         setElement( idx, positions, pos );
@@ -76,7 +76,7 @@ SphereInitializer.prototype.initializeColors = function ( colors, toSpawn ) {
         var idx = toSpawn[i];
         // ----------- STUDENT CODE BEGIN ------------
         var col = base_col;
-	col = new THREE.Vector4((num_points - i) / num_points, 0, i / num_points, 1.0);
+	    col = new THREE.Vector4((num_points - i) / num_points, 0, i / num_points, 1.0);
         // ----------- STUDENT CODE END ------------
         setElement( idx, colors, col );
     }

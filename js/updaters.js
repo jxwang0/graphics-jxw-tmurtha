@@ -11,6 +11,8 @@ var EPSILON = 0.01;
 var Collisions = Collisions || {};
 var num_points;
 var MAX_NOTE = 109; //Maximum note size in MIDI Format
+var velocity;
+var speed;
 
 function initializeMIDI ()
 {
@@ -60,7 +62,6 @@ function EulerUpdater ( opts ) {
 function playTone () {
     var delay = 0; // play one note every quarter second
     var note = 50; // the MIDI note
-    var velocity = 127; // how hard the note hits
     MIDI.setVolume(0, 127);
     MIDI.noteOn(0, note, velocity, delay);
     MIDI.noteOff(0, note, delay + 0.75);
@@ -72,10 +73,9 @@ function playTone () {
 function playTone ( i ) {
     var delay = 0; // play one note every quarter second
     var note = 50; // the MIDI note
-    var velocity = 127; // how hard the note hits
     MIDI.setVolume(0, 127);
-    MIDI.noteOn(0, i + 21, 100, 0);
-    MIDI.noteOn(0, i + 21 + 36, 100, 0);
+    MIDI.noteOn(0, i + 21, velocity, 0);
+    MIDI.noteOn(0, i + 21 + 36, velocity, 0);
 
     MIDI.noteOff(0, i + 21, 0.1);
     MIDI.noteOff(0, i + 21 + 36, 0.1);
@@ -107,18 +107,17 @@ EulerUpdater.prototype.updatePositions = function ( particleAttributes, alive, d
 
      
 
-	var s = ((num_points * 5) - r) * 1 /( num_points * 2);
-	var speed = Math.sqrt(num_points) / 12;
+	var s = ((num_points * 5) - r) * 1 /( num_points * speed);
 	//x and y as a function of timex
 	var x = Math.cos((1000 - l) * s);   
 	var y = Math.sin((1000 - l) * s);
 	if (!pl && x > 0 && y > 0  )
 	{
-            playTone(r % MAX_NOTE);
-            setElement(i, playeds, true);
-            setElement(i, isWhites, true);
-	    c = new THREE.Vector4(1,1,1,1);
-	    setElement( i, colors, c );
+        playTone(r % MAX_NOTE);
+        setElement(i, playeds, true);
+        setElement(i, isWhites, true);
+        c = new THREE.Vector4(1,1,1,1);
+        setElement( i, colors, c );
 	}
 
 	if(y > 0 && y/x > 0.5) {
@@ -149,7 +148,7 @@ EulerUpdater.prototype.updateVelocities = function ( particleAttributes, alive, 
         if ( !alive[i] ) continue;
         // ----------- STUDENT CODE BEGIN ------------
         var v = getElement( i, velocities );
-	setElement( i, velocities, v );
+	    setElement( i, velocities, v );
 
         // ----------- STUDENT CODE END ------------
     }
