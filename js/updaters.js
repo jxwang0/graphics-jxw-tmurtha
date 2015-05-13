@@ -107,20 +107,26 @@ EulerUpdater.prototype.updatePositions = function ( particleAttributes, alive, d
 
      
 
-	var s = ((num_points * 3) - r) * 3 /( num_points * 2);
+	var s = ((num_points * 5) - r) * 1 /( num_points * 2);
 	var speed = Math.sqrt(num_points) / 12;
 	//x and y as a function of timex
 	var x = Math.cos((1000 - l) * s);   
 	var y = Math.sin((1000 - l) * s);
-    if (!pl && x > 0 && y > 0  )
-    {
+	if (!pl && x > 0 && y > 0  )
+	{
             playTone(r % MAX_NOTE);
             setElement(i, playeds, true);
             setElement(i, isWhites, true);
+	    c = new THREE.Vector4(1,1,1,1);
+	    setElement( i, colors, c );
+	}
 
-    }
+	if(y > 0 && y/x > 0.5) {
+	    	c = new THREE.Vector4((num_points - i) / num_points, 0, i / num_points, 1.0);
+	setElement( i, colors, c );
+	}
 
-    if (pl && x < 0)
+    if (pl && x < 0.0)
     {
         setElement(i, playeds, false);
         setElement(i, isWhites, false);
@@ -160,9 +166,7 @@ EulerUpdater.prototype.updateColors = function ( particleAttributes, alive, delt
         c.x =  (c.x + 0.0013) % 1;
         c.y =  (c.y + 0.0017) % 1;
         c.z =  (c.z + 0.0023) % 1;
-*/
-	
-
+	*/
         setElement( i, colors, c );
         // ----------- STUDENT CODE END ------------
     }
