@@ -9,7 +9,7 @@
 
 var EPSILON = 0.01;
 var Collisions = Collisions || {};
-var num_points = 720;
+var num_points;
 
 function initializeMIDI ()
 {
@@ -83,6 +83,7 @@ EulerUpdater.prototype.updatePositions = function ( particleAttributes, alive, d
   //  if (l % (2*Math.PI) < 1.0)
            // playTone();
 	var s = ((num_points * 3) - r) * 3 / num_points;
+	var speed = Math.sqrt(num_points) / 12;
 	//x and y as a function of timex
 	var x = Math.cos((1000 - l) * s);   
 	var y = Math.sin((1000 - l) * s);
