@@ -6,7 +6,7 @@ SystemSettings.standardMaterial = new THREE.ShaderMaterial( {
         texture:  { type: 't',  value: new THREE.ImageUtils.loadTexture( 'images/blank.png' ) },
     },
 
-    attributes: {
+    attributes: {   
         velocity: { type: 'v3', value: new THREE.Vector3() },
         color:    { type: 'v4', value: new THREE.Vector3( 0.0, 0.0, 1.0, 1.0 ) },
         lifetime: { type: 'f', value: 1.0 },
