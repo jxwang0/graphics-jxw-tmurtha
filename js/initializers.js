@@ -44,7 +44,7 @@ SphereInitializer.prototype.initializePositions = function ( positions, toSpawn)
 	    pos.x = ((num_points - i) % num_points) * 5;
 	} */
 	pos.y = 0;
-	pos.z = Math.pow(i / 6, concavity);
+	pos.z = Math.pow(50*i /( num_points), concavity);
 
         // ----------- STUDENT CODE END ------------
         setElement( idx, positions, pos );
