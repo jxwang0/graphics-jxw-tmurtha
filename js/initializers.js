@@ -21,6 +21,8 @@ VoidInitializer.prototype.initialize = function ( particleAttributes, toSpawn ) 
 function SphereInitializer ( opts ) {
     this._opts = opts;
 
+    initializeMIDI();
+
     return this;
 };
 
@@ -29,7 +31,7 @@ SphereInitializer.prototype.initializePositions = function ( positions, toSpawn)
     var base_pos = new THREE.Vector3( base.x, base.y, base.z );
     var r   = base.w;
 
-    //startTones();
+    //startTone();
     for ( var i = 0 ; i < toSpawn.length ; ++i ) {
         var idx = toSpawn[i];
         // ----------- STUDENT CODE BEGIN ------------
