@@ -122,8 +122,9 @@ EulerUpdater.prototype.updatePositions = function ( particleAttributes, alive, d
 	}
 
 	if(y > 0 && y/x > 0.5) {
-	    	c = new THREE.Vector4((num_points - i) / num_points, 0, i / num_points, 1.0);
-	setElement( i, colors, c );
+//	    c = new THREE.Vector4((num_points - i) / num_points, 0, i / num_points, 1.0);
+//	    c = new THREE.Vector4((num_points - i) / num_points, 0, i / num_points, 1.0);
+	    setElement( i, colors, c );
 	}
 
     if (pl && x < 0.0)
