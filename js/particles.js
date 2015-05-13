@@ -23,7 +23,7 @@ ParticleEngine.create = function () {
     this._particleCloud  = new THREE.PointCloud( this._particles, this._material );
 };
 
-ParticleEngine.initParticle = function ( i, positions, velocities, colors, sizes, lifetimes ) {
+ParticleEngine.initParticle = function ( i, positions, velocities, colors, sizes, lifetimes, playeds, isWhites ) {
     // positions
     positions[ 3 * i + 0 ] = 0;
     positions[ 3 * i + 1 ] = 50;
@@ -46,6 +46,9 @@ ParticleEngine.initParticle = function ( i, positions, velocities, colors, sizes
 
     //size
     sizes[ i ] = 1.0 + Math.random() * 5.0;
+
+    played[i] = false;
+    isWhite[i] = false;
 }
 
 
@@ -58,9 +61,11 @@ ParticleEngine.cubeEmitter = function ( count ) {
     var sizes      = new Float32Array( count ); // needs custom shader
     var lifetimes  = new Float32Array( count );
     var colors     = new Float32Array( count * 3 );
+    var playeds    = new Float32Array( count );
+    var isWhites    = new Float32Array( count );
 
     for( var i = 0; i < count; i++ ) {
-        this.initParticle( i, positions, velocities, colors, sizes, lifetimes );
+        this.initParticle( i, positions, velocities, colors, sizes, lifetimes, playeds, isWhites );
     }
 
     particles.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
@@ -68,6 +73,8 @@ ParticleEngine.cubeEmitter = function ( count ) {
     particles.addAttribute( 'velocity', new THREE.BufferAttribute( velocities, 3 ) );
     particles.addAttribute( 'lifetime', new THREE.BufferAttribute( lifetimes, 1 ) );
     particles.addAttribute( 'size', new THREE.BufferAttribute( sizes, 1 ) );
+    particles.addAttribute( 'played', new THREE.BufferAttribute( playeds, 1) );
+    particles.addAttribute( 'isWhite', new THREE.BufferAttribute(isWhites, 1) );
 };
 
 ParticleEngine.update = function () {
@@ -77,6 +84,8 @@ ParticleEngine.update = function () {
     var colors     = this._particles.getAttribute('color').array;
     var lifetimes  = this._particles.getAttribute('lifetime').array;
     var sizes      = this._particles.getAttribute('size').array;
+    var playeds    = this._particles.getAttribute('played').array;
+    var isWhites   = this._particles.getAttribute('isWhite').array;
 
     var count = positions.length / 3;
     var timestep = 0.1;
@@ -93,11 +102,13 @@ ParticleEngine.update = function () {
         var col = new THREE.Vector3( colors[ base_idx ], colors[ base_idx + 1], colors[base_idx + 2]);
         var size  = sizes [ i ];
         var lifetime = lifetimes[ i ];
+        var played = playeds [ i ];
+        var isWhite = isWhites [i ] ;
 
         lifetimes[ i ] = lifetime - timestep;
 
         if ( lifetimes[ i ] < 0 ) {
-            this.initParticle ( i, positions, velocities, colors, sizes, lifetimes );
+            this.initParticle ( i, positions, velocities, colors, sizes, lifetimes, playeds, isWhites);
             continue;
         }
 
@@ -133,6 +144,8 @@ ParticleEngine.update = function () {
     this._particles.attributes.size.needsUpdate = true;
     this._particles.attributes.color.needsUpdate = true;
     this._particles.attributes.lifetime.needsUpdate = true;
+    this._particles.attributes.played.needsUpdate = true;
+    this._particles.attributes.isWhite.needsUpdate = true;
 }
 
 

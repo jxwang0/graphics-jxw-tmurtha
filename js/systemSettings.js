@@ -1,5 +1,5 @@
 var SystemSettings = SystemSettings || {};
-var num_particles = 720;
+var num_particles = 2;
 SystemSettings.standardMaterial = new THREE.ShaderMaterial( {
 
     uniforms: {

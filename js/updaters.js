@@ -10,6 +10,7 @@
 var EPSILON = 0.01;
 var Collisions = Collisions || {};
 var num_points;
+var MAX_NOTE = 109; //Maximum note size in MIDI Format
 
 function initializeMIDI ()
 {
@@ -28,8 +29,8 @@ function initializeMIDI ()
                     var velocity = 127; // how hard the note hits
                     // play the note
                     MIDI.setVolume(0, 127);
-                    MIDI.noteOn(0, note, velocity, delay);
-                    MIDI.noteOff(0, note, delay + 0.75);
+                    //MIDI.noteOn(0, note, velocity, delay);
+                    //MIDI.noteOff(0, note, delay + 0.75);
                 }
         });     
 }
@@ -66,27 +67,64 @@ function playTone () {
 
 }; 
 
+// Works best when i spans from 0 to 48
+// NOTE FOR USER: MAXIMUM MIDI NOTE IS 88 + 21 = 109
+function playTone ( i ) {
+    var delay = 0; // play one note every quarter second
+    var note = 50; // the MIDI note
+    var velocity = 127; // how hard the note hits
+    MIDI.setVolume(0, 127);
+    MIDI.noteOn(0, i + 21, 100, 0);
+    MIDI.noteOn(0, i + 21 + 36, 100, 0);
+
+    MIDI.noteOff(0, i + 21, 0.1);
+    MIDI.noteOff(0, i + 21 + 36, 0.1);
+
+}; 
 EulerUpdater.prototype.updatePositions = function ( particleAttributes, alive, delta_t ) {
     var positions  = particleAttributes.position;
     var velocities = particleAttributes.velocity;
     var lifetimes = particleAttributes.lifetime;
+    var playeds = particleAttributes.played;
+    var colors = particleAttributes.color;
+    var sizes = particleAttributes.size;
+    var isWhites = particleAttributes.isWhite;
+
     num_particles = alive.length;
     for ( var i  = 0 ; i < alive.length ; ++i ) {
         if ( !alive[i] ) continue;
         var p = getElement( i, positions );
         var v = getElement( i, velocities );
         var l = getElement( i, lifetimes );
+        var pl = getElement(i, playeds);
+        var c = getElement(i , colors);
+        var s = getElement(i, sizes);
+        var w = getElement(i, isWhites);
+
 	//radius
 	var r = Math.round(Math.sqrt((p.x * p.x) + (p.y * p.y)));
 	//scale speed as a function of proximity to center
 
-  //  if (l % (2*Math.PI) < 1.0)
-           // playTone();
-	var s = ((num_points * 3) - r) * 3 / num_points;
+     
+
+	var s = ((num_points * 3) - r) * 3 /( num_points * 2);
 	var speed = Math.sqrt(num_points) / 12;
 	//x and y as a function of timex
 	var x = Math.cos((1000 - l) * s);   
 	var y = Math.sin((1000 - l) * s);
+    if (!pl && x > 0 && y > 0  )
+    {
+            playTone(r % MAX_NOTE);
+            setElement(i, playeds, true);
+            setElement(i, isWhites, true);
+
+    }
+
+    if (pl && x < 0)
+    {
+        setElement(i, playeds, false);
+        setElement(i, isWhites, false);
+    }
 	//position on circle * distance from center
 	p.x = x * r;
 	p.y = y * r;
