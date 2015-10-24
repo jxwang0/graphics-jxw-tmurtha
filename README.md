@@ -1,3 +1,2 @@
-# graphics-jxw-tmurtha
-COS426 Final Project
+COS426: Computer Graphics Final Project
 =======
